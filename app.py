@@ -141,7 +141,7 @@ def main():
 
                 # ハンドサイン分類
                 hand_sign_id = keypoint_classifier(pre_processed_landmark_list)
-                if hand_sign_id == 2:  # 指差しサイン
+                if hand_sign_id == 4 or hand_sign_id == 5:  # one_finger_point or two_finger_point
                     point_history.append(landmark_list[8])  # 人差指座標
                 else:
                     point_history.append([0, 0])
