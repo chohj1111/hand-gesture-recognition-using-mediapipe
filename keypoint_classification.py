@@ -91,7 +91,7 @@ val_loss, val_acc = model.evaluate(X_test, y_test, batch_size=128)
 print(f'val_loss: {val_loss:.4f}  val_acc: {val_acc:.4f}')
 
 # ── 클래스별 성능 분석 ────────────────────────────────────────────────────────
-ALL_LABELS = ['pinch', 'ok_sign', 'thumb_left', 'fist',
+ALL_LABELS = ['pinch', 'ok_sign', 'thumb_left', 'open_palm',
               'one_finger_left', 'one_finger_right', 'one_finger_up', 'one_finger_down',
               'two_finger_left', 'two_finger_right']
 LABELS = ALL_LABELS[:NUM_CLASSES]

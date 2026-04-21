@@ -18,7 +18,7 @@ LABELS = {
     0: 'pinch',
     1: 'ok_sign',
     2: 'thumb_left',
-    3: 'fist',
+    3: 'open_palm',
     4: 'one_finger_left',
     5: 'one_finger_right',
     6: 'one_finger_up',

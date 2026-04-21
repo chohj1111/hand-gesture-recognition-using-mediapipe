@@ -7,7 +7,7 @@
 | 0 | pinch | 메뉴 선택 |
 | 1 | ok_sign | 결제 화면 이동 |
 | 2 | thumb_left | 이전 화면 이동 |
-| 3 | fist | 음성 인식 활성화 |
+| 3 | open_palm | 음성 인식 활성화 |
 | 4 | one_finger_left | 포커스 좌 이동 |
 | 5 | one_finger_right | 포커스 우 이동 |
 | 6 | one_finger_up | 포커스 상 이동 |
@@ -34,7 +34,7 @@
 | 0 pinch | 1,000 | 1,000 ✓ |
 | 1 ok_sign | 1,000 | 1,000 ✓ |
 | 2 thumb_left | 1,000 | 1,000 ✓ |
-| 3 fist | 1,000 | 1,000 ✓ |
+| 3 open_palm | 1,000 | 1,000 ✓ |
 | 4 one_finger_left | 0 | 1,000 |
 | 5 one_finger_right | 0 | 1,000 |
 | 6 one_finger_up | 0 | 1,000 |
@@ -85,7 +85,7 @@ conda run -n tf-mac-metal python analyze_keypoint_classifier.py
 
 ## 검증 체크리스트
 
-- [ ] pinch(0) / ok_sign(1) / thumb_left(2) / fist(3) 각각 인식됨
+- [ ] pinch(0) / ok_sign(1) / thumb_left(2) / open_palm(3) 각각 인식됨
 - [ ] one_finger_left(4) / right(5) / up(6) / down(7) 방향별 인식됨
 - [ ] two_finger_left(8) / right(9) 인식됨
 - [ ] 모든 클래스 Recall ≥ 85%
