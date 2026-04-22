@@ -2,7 +2,7 @@
 keypoint classifier 성능 분석 스크립트
 실행: python analyze_keypoint_classifier.py
 
-- TFLite 모델 기준 전체 데이터 추론
+- TFLite 모델 기준 테스트 셋(keypoint_classification.py 동일 split) 추론
 - 클래스별 Precision / Recall / F1
 - 혼동 행렬 (Confusion Matrix)
 - 클래스별 신뢰도 분포
@@ -10,6 +10,9 @@ keypoint classifier 성능 분석 스크립트
 import csv
 import numpy as np
 import tensorflow as tf
+from sklearn.model_selection import train_test_split
+
+RANDOM_SEED = 42   # keypoint_classification.py 와 동일
 
 CSV_PATH   = 'model/keypoint_classifier/keypoint.csv'
 MODEL_PATH = 'model/keypoint_classifier/keypoint_classifier.tflite'
@@ -27,9 +30,10 @@ LABELS = {
     9: 'two_finger_right',
 }
 
-# ── 데이터 로드 ──────────────────────────────────────────────────────────────
+# ── 데이터 로드 (테스트 셋만 반환) ─────────────────────────────────────────────
 
 def load_data():
+    """keypoint_classification.py 와 동일한 split으로 test set 반환."""
     X, y = [], []
     with open(CSV_PATH) as f:
         for row in csv.reader(f):
@@ -37,7 +41,11 @@ def load_data():
                 continue
             y.append(int(row[0]))
             X.append([float(v) for v in row[1:]])
-    return np.array(X, dtype=np.float32), np.array(y, dtype=np.int32)
+    X_all = np.array(X, dtype=np.float32)
+    y_all = np.array(y, dtype=np.int32)
+    _, X_test, _, y_test = train_test_split(
+        X_all, y_all, train_size=0.75, random_state=RANDOM_SEED)
+    return X_test, y_test
 
 
 # ── TFLite 배치 추론 ─────────────────────────────────────────────────────────
@@ -110,6 +118,7 @@ def main():
 
     # 데이터 로드
     print(f'\n  데이터 로드 중: {CSV_PATH}')
+    print(f'  (keypoint_classification.py 동일 split: train_size=0.75, seed={RANDOM_SEED})')
     X, y_true = load_data()
 
     # TFLite 모델 출력 클래스 수 확인 (LABELS 딕셔너리와 독립적으로 검출)
@@ -120,7 +129,7 @@ def main():
     print(f'  TFLite 출력 클래스 수: {n_classes}')
     known_mask = y_true < n_classes
     X_k, y_k = X[known_mask], y_true[known_mask]
-    print(f'  총 샘플: {len(y_true)}  (알 수 없는 클래스 제외 후: {len(y_k)})')
+    print(f'  테스트 샘플: {len(y_true)}  (알 수 없는 클래스 제외 후: {len(y_k)})')
 
     unknown = set(y_true[~known_mask])
     if unknown:
